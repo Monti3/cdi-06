@@ -81,6 +81,10 @@ int main() {
 		int x= 0;
 		int y= 0;
 
+
+		/*
+		almaceno los pines en un array en funcion de su estado
+		*/
 		if (b1){
 			cerrados[x] = '6';
 			x =x+1;
@@ -122,7 +126,7 @@ int main() {
 		/* Escribo en la pantalla */
 		lcd_puts(lcd, "Abiertos:");
 
-		/* Imprime un mensaje en la pantalla */
+		/* Reccorre el array y si se trata de un numero lo imprime en la pantalla */
 		for(int i= 0; i<y; i++)
 		{
 			if (abiertos[i]!= ' '||abiertos[i]!= '\0' ){
@@ -138,7 +142,7 @@ int main() {
 		lcd_go_to_xy(lcd, 0, 1);
 		/* Imprime un mensaje en la pantalla */
     lcd_puts(lcd, "Cerrados:");
-
+		/* Reccorre el array y si se trata de un numero lo imprime en la pantalla */
 		for(int i= 0; i<x; i++)
 		{
 			if (cerrados[i] != ' '|| cerrados[i] != '\0'){
@@ -151,7 +155,7 @@ int main() {
 		
 		
     /* Espero medio segundo */
-		sleep_ms(500);
+		sleep_ms(16);
   }
 }
 
