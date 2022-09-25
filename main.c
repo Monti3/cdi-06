@@ -38,23 +38,15 @@ void lcd_puts(lcd_t lcd, const char* str);
 void lcd_clear(lcd_t lcd);
 void lcd_go_to_xy(lcd_t lcd, uint8_t x,  uint8_t y);
 
+/*  El mensaje que quiero que aparezca*/
+
+char mensaje[] = "hola";
+
 /* Programa principal */
 
 int main() {
 	/* Inicializo el USB */
   stdio_init_all();
-
-	gpio_init(6);
-	gpio_init(7);
-	gpio_init(8);
-	gpio_init(9);
-	gpio_init(13);
-	gpio_set_dir(6,0);
-	gpio_set_dir(7,0);
-  gpio_set_dir(8,0);
-	gpio_set_dir(9,0);
-	gpio_set_dir(13,1);
-
 	/* Obtengo una variable para elegir los pines del LCD */
   lcd_t lcd = lcd_get_default_config();
 	/* Por defecto, los pines son:
@@ -71,91 +63,27 @@ int main() {
 	lcd_init(lcd);
 
   while (true) {
-	
-		bool b1 = gpio_get(6);
-		bool b2 = gpio_get(7);
-		bool b3 = gpio_get(8);
-		bool b4 = gpio_get(9);
-		char cerrados[4] ={' ', ' ', ' ', ' '};
-		char abiertos[4] ={' ', ' ', ' ', ' '};
-		int x= 0;
-		int y= 0;
-
-
-		/*
-		almaceno los pines en un array en funcion de su estado
-		*/
-		if (b1){
-			cerrados[x] = '6';
-			x =x+1;
-		}
-		else{
-			abiertos[y] = '6';
-			y=y+1;
-		}
-		if (b2){
-			cerrados[x] = '7';
-			x =x+1;
-		}
-		else{
-			abiertos[y] = '7';
-			y=y+1;
-		}
-		if (b3){
-			cerrados[x] = '8';
-			x =x+1;
-		}
-		else{
-			abiertos[y] = '8';
-			y=y+1;
-		}
-		if (b4){
-			cerrados[x] = '9';
-			x =x+1;
-		}
-		else{
-			abiertos[y] = '9';
-			y=y+1;
-		}
-		
-		
-		
-
-	/* Limpio el LCD. Por defecto, va al 0;0 */
-    lcd_clear(lcd);
-		/* Escribo en la pantalla */
-		lcd_puts(lcd, "Abiertos:");
-
-		/* Reccorre el array y si se trata de un numero lo imprime en la pantalla */
-		for(int i= 0; i<y; i++)
-		{
-			if (abiertos[i]!= ' '||abiertos[i]!= '\0' ){
-			lcd_putc(lcd, abiertos[i]);
-			if (abiertos[i+1]!= ' '){
-			lcd_putc(lcd,'|');
-				}
-			}
-		}
-
-	 
-		/* Voy a la columna 6, fila 1 */
-		lcd_go_to_xy(lcd, 0, 1);
+		/* Limpio el LCD. Por defecto, va al 0;0 */
+    int i = 0;
+		for (i; i<16; i++){
+		lcd_clear(lcd);
+		lcd_go_to_xy(lcd, i, 1);
 		/* Imprime un mensaje en la pantalla */
-    lcd_puts(lcd, "Cerrados:");
-		/* Reccorre el array y si se trata de un numero lo imprime en la pantalla */
-		for(int i= 0; i<x; i++)
-		{
-			if (cerrados[i] != ' '|| cerrados[i] != '\0'){
-			lcd_putc(lcd, cerrados[i]);
-			if (cerrados[i+1]!= ' '){
-			lcd_putc(lcd,'|');
-					}
-				}
-			}
-		
-		
+    lcd_puts(lcd, mensaje );
     /* Espero medio segundo */
-		sleep_ms(16);
+		sleep_ms(500);
+		}
+		for (i;i>0; i--){
+			{
+		lcd_clear(lcd);
+		lcd_go_to_xy(lcd, i, 1);
+		/* Imprime un mensaje en la pantalla */
+    lcd_puts(lcd, mensaje );
+    /* Espero medio segundo */
+		sleep_ms(500);
+		}
+	}
+
   }
 }
 
