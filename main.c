@@ -40,7 +40,7 @@ void lcd_go_to_xy(lcd_t lcd, uint8_t x,  uint8_t y);
 
 /*  El mensaje que quiero que aparezca*/
 
-char mensaje[] = "hola";
+char mensaje[] = "hola me llamo Juan";
 
 /* Programa principal */
 
@@ -65,24 +65,15 @@ int main() {
   while (true) {
 		/* Limpio el LCD. Por defecto, va al 0;0 */
     int i = 0;
-		for (i; i<16; i++){
+		for (i; i<sizeof(mensaje); i++){
+		uint8_t posicion_inicial = 16 - sizeof(mensaje);
 		lcd_clear(lcd);
-		lcd_go_to_xy(lcd, i, 1);
+		lcd_go_to_xy(lcd, (16 +posicion_inicial) -i , 1);
 		/* Imprime un mensaje en la pantalla */
     lcd_puts(lcd, mensaje );
     /* Espero medio segundo */
 		sleep_ms(500);
 		}
-		for (i;i>0; i--){
-			{
-		lcd_clear(lcd);
-		lcd_go_to_xy(lcd, i, 1);
-		/* Imprime un mensaje en la pantalla */
-    lcd_puts(lcd, mensaje );
-    /* Espero medio segundo */
-		sleep_ms(500);
-		}
-	}
 
   }
 }
